@@ -6,9 +6,10 @@
 #include <cstdlib>
 #include <ctime>
 using namespace std;
-void battle(string& encounter, int& maxHealth, int& health, int& attack, int& defense);
+bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& defense);
 void printStats(int& maxHealth, int& health, int& attack, int& defense, vector<string>& effects, vector<int>& enemyStats);
 void enemyAttacks(string& encounter, int& health, int& attack, int& defense, vector<int>& enemyStats);
+int findIndex(vector<string>& v, string val);
 vector<int> introductions(string& encounter);
 int printOptions(vector<string>& options);
 void wait(int milliseconds);
@@ -26,11 +27,25 @@ int main() {
     string encounter = possibleEncounters[randomNum];
     cout << "You encountered a " << encounter << "!" << endl;
     wait(1000);
-    battle(encounter, maxHealth, health, attack, defense);
+    bool enemyDead = battle(encounter, maxHealth, health, attack, defense);
+    if(enemyDead) {
+        cout << "Good job :) you beat table..." << endl;
+        wait(500);
+        cout << "Im so proud of you, the table gets what he deserves" << endl;
+        wait(1000);
+    } else {
+        cout << "Why table win >:(" << endl;
+    }
+    cout << "I would say fight your next enemy but there is no next enemy :(" << endl;
+    wait(2000);
+    cout << "There was only table." << endl;
+    wait(2000);
+    cout << "Thank you for playing tho!" << endl;
+    wait(500);
     return 0;
 }
 
-void battle(string& encounter, int& maxHealth, int& health, int& attack, int& defense) {
+bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& defense) {
     bool dead = false;
     vector<string> currentEffects;
     vector<string> options = {"Attack", "Act", "Item"};
@@ -42,7 +57,30 @@ void battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
         vector<int> enemyStats = introductions(encounter);
         vector<string> attackOptions = {"Hit the table with your fist", "Kick the table"};
         vector<string> actOptions = {"Burn the table with a lighter", "Give the table a wedgie"};
+        vector<string> itemOptions = {"Screwdriver", "The Green Orb of satisfaction and happiness and everything the best", "The Red Orb of sadness and depression and everything bad", "Knife (Equip)"};
         do {
+            if(health <= 0) {
+                cout << "You died :(" << endl;
+                wait(500);
+                cout << "The table wins :(" << endl;
+                wait(2000);
+                cout << "Why did you let him win?" << endl;
+                wait(500);
+                cout << "Tables don't win" << endl;
+                wait(1000);
+                cout << "THEY LOSE, DONT LOSE THEY LOSE" << endl;
+                wait(2000);
+                return false;
+                break;
+            }
+            if(enemyStats[0] <= 0) {
+                cout << "The table is destroyed :)" << endl;
+                wait(500);
+                cout << "HURRAY" << endl;
+                wait(1000);
+                return true;
+                break;
+            }
             if(enemyStats[3] > 0) { //Fire damage haha
                 enemyStats[0] -= (2 * enemyStats[3]);
             }
@@ -53,18 +91,18 @@ void battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                 int attack = printOptions(attackOptions);
                 if(attack == 1) {
                     damage = 10;
-                    enemyStats[0] -= damage;
+                    enemyStats[0] -= (damage + attack);
                     cout << "You hit the table with your fist!" << endl;
                     wait(1000);
-                    cout << "You deal " << damage << " damage to the table." << endl;
+                    cout << "You deal " << (damage + attack) << " damage to the table." << endl;
                     wait(1000);
                 } else if(attack == 2) {
                     health -= 3;
                     damage = 5;
-                    enemyStats[0] -= damage;
+                    enemyStats[0] -= (damage + attack);
                     cout << "You kick the table!" << endl;
                     wait(1000);
-                    cout << "You deal " << damage << " damage to the table." << endl;
+                    cout << "You deal " << (damage + attack) << " damage to the table." << endl;
                     wait(1000);
                     cout << "But you also stub your toe :(" << endl;
                     wait(1000);
@@ -81,7 +119,7 @@ void battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                     wait(1000);
                     damage = 5;
                     enemyStats[3] += 1;
-                    cout << "You deal " << damage << " damage to the table." << endl;
+                    cout << "You deal " << (damage + attack) << " damage to the table." << endl;
                     wait(500);
                     cout << "And now table be fire, fire fire haha fire yes fire" << endl;
                     wait(1000);
@@ -94,9 +132,51 @@ void battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                     wait(1000);
                 }
                 enemyAttacks(encounter, health, attack, defense, enemyStats);
+            } else if(choice == 3) {
+                cout << "What item do you want to use?" << endl;
+                int item = printOptions(itemOptions);
+                if(item == 1) {
+                    cout << "You use the screwdriver to unscrew the table!" << endl;
+                    wait(1000);
+                    damage = 15;
+                    enemyStats[0] -= (damage + attack);
+                    cout << "You deal " << (damage + attack) << " damage to the table." << endl;
+                    wait(1000);
+                } else if(item == 4) {
+                    int tmp = findIndex(itemOptions, "Knife (Equip)");
+                    if(tmp != -1) {
+                        cout << "You equip the knife" << endl;
+                        attack += 10;
+                        itemOptions.erase(itemOptions.begin() + tmp);
+                    } else {
+                        cout << "Oh but wait, NO YOU DON'T, YOU HAVE NO KNIFE." << endl; //Shoudln't be printed
+                    }
+                    wait(1000);
+                } else if(item == 2) {
+                    cout << "You use the Green Orb of satisfaction and happiness and everything the best on the table!" << endl;
+                    wait(1000);
+                    damage = 5;
+                    enemyStats[3] += 5;
+                    cout << "You deal " << damage << " damage to the table." << endl;
+                    wait(500);
+                    cout << "You give the fire the BURNNNNN AHHHH" << endl;
+                    wait(1000);
+                } else if(item == 3) {
+                    cout << "You use the Red Orb of sadness and depression and everything bad on the table!" << endl;
+                    wait(1000);
+                    health -= 20;
+                    cout << "The orb hates you since its the sadness orb >:(" << endl;
+                    wait(500);
+                    cout << "And just cus he's red and hates you, you take 20 damage :(" << endl;
+                    wait(2000);
+                } else {
+                    cout << "Invalid item choice." << endl;
+                    wait(1000);
+                }
+                enemyAttacks(encounter, health, attack, defense, enemyStats);
             }
         } while(dead == false);
-
+        return false;
     } else if (encounter == "Spider man") {
         vector<int> enemyStats = introductions(encounter);
         introductions(encounter);
@@ -153,21 +233,21 @@ void enemyAttacks(string& encounter, int& health, int& attack, int& defense, vec
             wait(1000);
             int damage = 5;
             health -= (damage + enemyStats[2]) - defense;
-            cout << "You take " << damage << " damage." << endl;
+            cout << "You take " << (damage + enemyStats[2]) - defense << " damage." << endl;
             wait(1000);
         } else if(randomNum == 1) {
             cout << possibleAttacks[randomNum] << endl;
             wait(1000);
             int damage = 3;
             health -= (damage + enemyStats[2]) - defense;
-            cout << "You take " << damage << " damage." << endl;
+            cout << "You take " << (damage + enemyStats[2]) - defense << " damage." << endl;
             wait(1000);
         } else if(randomNum == 2) {
             cout << possibleAttacks[randomNum] << endl;
             wait(1000);
             int damage = 10;
             health -= (damage + enemyStats[2]) - defense;
-            cout << "You take " << damage << " damage." << endl;
+            cout << "You take " << (damage + enemyStats[2]) - defense << " damage." << endl;
             wait(1000);
         }
 
@@ -200,7 +280,7 @@ void enemyAttacks(string& encounter, int& health, int& attack, int& defense, vec
 vector<int> introductions(string& encounter) {
     vector<int> stats;
     if(encounter == "Table") {
-        stats = {100, 5, 20, 0, 0};
+        stats = {100, 5, 0, 0, 0};
         cout << "the ordinary table wasn't ordinary because table was not table" << endl;
         wait(2000);
         cout << "table" << endl;
@@ -263,6 +343,19 @@ void printStats(int& maxHealth, int& health, int& attack, int& defense, vector<s
         }
     }
     wait(1250);
+}
+
+int findIndex(vector<string>& v, string val) {
+    int count = 0;
+    for(auto itr = v.begin(); itr != v.end(); ++itr) {
+      
+        if (*itr == val) { //If the restaurant is found, the index is returned
+            return count;
+        }
+        count += 1;
+    }
+  	
+  	return -1; //If the restaurant is not found, -1 is returned
 }
 
 void wait(int milliseconds) {
