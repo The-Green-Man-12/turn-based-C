@@ -31,8 +31,8 @@ int main() {
     int health = 100;
     int attack = 20;
     int defense = 0;
-    //int randomNum = rand() % possibleEncounters.size();
-    int randomNum = 0;
+    //int randomNum = rand() % possibleEncounters.size(); //Randomizes encounter
+    int randomNum = 0; //Remove when more encounters are added
     string encounter = possibleEncounters[randomNum];
     cout << "You encountered a " << encounter << "!" << endl;
     wait(1000);
