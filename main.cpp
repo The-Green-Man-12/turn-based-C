@@ -73,6 +73,9 @@ bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                 return false;
                 break;
             }
+            if(enemyStats[3] > 0) { //Fire damage haha
+                enemyStats[0] -= (2 * enemyStats[3]);
+            }
             if(enemyStats[0] <= 0) {
                 cout << "The table is destroyed :)" << endl;
                 wait(500);
@@ -80,9 +83,6 @@ bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                 wait(1000);
                 return true;
                 break;
-            }
-            if(enemyStats[3] > 0) { //Fire damage haha
-                enemyStats[0] -= (2 * enemyStats[3]);
             }
             printStats(maxHealth, health, attack, defense, currentEffects, enemyStats);
             choice = printOptions(options);
@@ -195,6 +195,7 @@ bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
     } else {
         cout << "Error: Encounter not recognized." << endl;
     }
+    return false;
 }
 
 int printOptions(vector<string>& options) {
