@@ -41,7 +41,11 @@ void battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
     if (encounter == "Table") {
         vector<int> enemyStats = introductions(encounter);
         vector<string> attackOptions = {"Hit the table with your fist", "Kick the table"};
+        vector<string> actOptions = {"Burn the table with a lighter", "Give the table a wedgie"};
         do {
+            if(enemyStats[3] > 0) { //Fire damage haha
+                enemyStats[0] -= (2 * enemyStats[3]);
+            }
             printStats(maxHealth, health, attack, defense, currentEffects, enemyStats);
             choice = printOptions(options);
             if(choice == 1) {
@@ -66,6 +70,27 @@ void battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                     wait(1000);
                 } else {
                     cout << "Invalid attack choice." << endl;
+                    wait(1000);
+                }
+                enemyAttacks(encounter, health, attack, defense, enemyStats);
+            } else if (choice == 2) {
+                cout << "What do you want to act?" << endl;
+                int act = printOptions(actOptions);
+                if(act == 1) {
+                    cout << "burn burn table you burn burn" << endl;
+                    wait(1000);
+                    damage = 5;
+                    enemyStats[3] += 1;
+                    cout << "You deal " << damage << " damage to the table." << endl;
+                    wait(500);
+                    cout << "And now table be fire, fire fire haha fire yes fire" << endl;
+                    wait(1000);
+                } else if(act == 2) {
+                    cout << "He gets big ahhh wedgie. Not effective cus table is table :(" << endl;
+                    cout << "You deal NOTHING to the table because you are stupid for trying that >:(" << endl;
+                    wait(1000);
+                } else {
+                    cout << "Invalid act choice." << endl;
                     wait(1000);
                 }
                 enemyAttacks(encounter, health, attack, defense, enemyStats);
@@ -127,21 +152,21 @@ void enemyAttacks(string& encounter, int& health, int& attack, int& defense, vec
             cout << possibleAttacks[randomNum] << endl;
             wait(1000);
             int damage = 5;
-            health -= damage;
+            health -= (damage + enemyStats[2]) - defense;
             cout << "You take " << damage << " damage." << endl;
             wait(1000);
         } else if(randomNum == 1) {
             cout << possibleAttacks[randomNum] << endl;
             wait(1000);
-            int damage = 10;
-            health -= damage;
+            int damage = 3;
+            health -= (damage + enemyStats[2]) - defense;
             cout << "You take " << damage << " damage." << endl;
             wait(1000);
         } else if(randomNum == 2) {
             cout << possibleAttacks[randomNum] << endl;
             wait(1000);
-            int damage = 15;
-            health -= damage;
+            int damage = 10;
+            health -= (damage + enemyStats[2]) - defense;
             cout << "You take " << damage << " damage." << endl;
             wait(1000);
         }
@@ -175,13 +200,13 @@ void enemyAttacks(string& encounter, int& health, int& attack, int& defense, vec
 vector<int> introductions(string& encounter) {
     vector<int> stats;
     if(encounter == "Table") {
-        stats = {100, 5, 20, 0};
+        stats = {100, 5, 20, 0, 0};
         cout << "the ordinary table wasn't ordinary because table was not table" << endl;
         wait(2000);
         cout << "table" << endl;
         wait(1500);
     } else if (encounter == "Spider man") {
-        stats = {100, 5, 20 , 0};
+        stats = {100, 5, 20 , 0, 0};
         cout << "Spider-Man hates you." << endl;
         wait(500);
         cout << "Why?" << endl;
@@ -189,7 +214,7 @@ vector<int> introductions(string& encounter) {
         cout << "Idk" << endl;
         wait(1000);
     } else if (encounter == "The Green Man") {
-        stats = {100, 5, 20, 0};
+        stats = {100, 5, 20, 0, 0};
         cout << "The Green Man doesn't like you." << endl;
         wait(1000);
         cout << "You are a purple person." << endl;
@@ -197,7 +222,7 @@ vector<int> introductions(string& encounter) {
         cout << "Kratos verde" << endl;
         wait(1000);
     } else if (encounter == "Knife") {
-        stats = {100, 5, 20, 0};
+        stats = {100, 5, 20, 0, 0};
         cout << "The tetanus knife is back again" << endl;
         wait(1000);
         cout << "yes its the one that makes you explode" << endl;
@@ -219,6 +244,8 @@ void printStats(int& maxHealth, int& health, int& attack, int& defense, vector<s
     wait(250);
     cout << "Defense: " << enemyStats[2] << endl;
     wait(500);
+    cout << "Fire level: " << enemyStats[3] << endl;
+    wait(250);
     cout << "\n-----------------------------\n" << endl;
     cout << "Player stats: " << endl;
     wait(250);
