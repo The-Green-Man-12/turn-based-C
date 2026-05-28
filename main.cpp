@@ -62,8 +62,15 @@ bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
     int damage;
     cout << "Battle starts..." << endl;
     wait(1000);
+    vector<int> enemyStats;
     if (encounter == "Table") {
-        vector<int> enemyStats = introductions(encounter);
+        try {
+            enemyStats = introductions(encounter);
+        }
+        catch (const runtime_error& e) {
+            cout << "Error: " << e.what() << endl;
+            return false;
+        }
         vector<string> attackOptions = {"Hit the table with your fist", "Kick the table"};
         vector<string> actOptions = {"Burn the table with a lighter", "Give the table a wedgie"};
         vector<string> itemOptions = {"Screwdriver", "The Green Orb of satisfaction and happiness and everything the best", "The Red Orb of sadness and depression and everything bad", "Knife (Equip)"};
@@ -187,17 +194,38 @@ bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
         } while(dead == false);
         return false;
     } else if (encounter == "Spider man") {
-        vector<int> enemyStats = introductions(encounter);
+        vector<int> enemyStats;
+        try {
+            enemyStats = introductions(encounter);
+        }
+        catch (const runtime_error& e) {
+            cout << "Error: " << e.what() << endl;
+            return false;
+        }
         introductions(encounter);
         printStats(maxHealth, health, attack, defense, currentEffects, enemyStats);
         choice = printOptions(options);
     } else if (encounter == "The Green Man") {
-        vector<int> enemyStats = introductions(encounter);
+        vector<int> enemyStats;
+        try {
+            enemyStats = introductions(encounter);
+        }
+        catch (const runtime_error& e) {
+            cout << "Error: " << e.what() << endl;
+            return false;
+        }
         introductions(encounter);
         printStats(maxHealth, health, attack, defense, currentEffects, enemyStats);
         choice = printOptions(options);
     } else if (encounter == "Knife") {
-        vector<int> enemyStats = introductions(encounter);
+        vector<int> enemyStats;
+        try {
+            enemyStats = introductions(encounter);
+        }
+        catch (const runtime_error& e) {
+            cout << "Error: " << e.what() << endl;
+            return false;
+        }
         introductions(encounter);
         printStats(maxHealth, health, attack, defense, currentEffects, enemyStats);
         choice = printOptions(options);
@@ -322,7 +350,7 @@ vector<int> introductions(string& encounter) {
         cout << "either way its bad" << endl;
         wait(2000);
     } else {
-        cout << "Error: Encounter not recognized." << endl;
+        throw runtime_error("Encounter not recognized: " + encounter);
     }
     return stats;
 }
