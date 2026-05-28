@@ -1,3 +1,12 @@
+/*
+Mason Gross
+C++ turn based battle system
+Extra: Try/catch usage in case of the wrong input.
+I wanted to add more characters, as you can see by the code,
+but I have no time cus I spent so much time trying to create smthin else
+and because of the other projects I have to take care of as well.
+*/
+
 #include <iostream>
 #include <vector>
 #include <string>
