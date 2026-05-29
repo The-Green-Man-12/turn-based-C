@@ -152,8 +152,20 @@ bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                 cout << "What item do you want to use?" << endl;
                 int item = printOptions(itemOptions);
                 if(item == 1) {
-                    cout << "You use the screwdriver to unscrew the table!" << endl;
+                    cout << "You use the screwdriver to..." << endl;
+                    wait(2000);
+                    cout << "What do you use a screwdriver for on a table?" << endl;
+                    wait(2000);
+                    cout << "The screws?" << endl;
+                    wait(2000);
+                    cout << "No, you're crazy. You just hit the table with the screwdriver like a normal person." << endl;
+                    wait(3000);
+                    cout << "It wasn't really effective sadly. Maybe because the screw driver is just bad." << endl;
                     wait(1000);
+                    cout << "Theres no other way to use it other than hitting it, right?" << endl;
+                    wait(3000);
+                    cout << "Okay im done talking about the screwdriver now, you deal damage to the table." << endl;
+                    wait(2000);
                     damage = 15;
                     enemyStats[0] -= (damage + attack);
                     cout << "You deal " << (damage + attack) << " damage to the table." << endl;
