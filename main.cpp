@@ -134,6 +134,7 @@ bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                     cout << "burn burn table you burn burn" << endl;
                     wait(1000);
                     damage = 5;
+                    enemyStats[0] -= (damage + attack);
                     enemyStats[3] += 1;
                     cout << "You deal " << (damage + attack) << " damage to the table." << endl;
                     wait(500);
@@ -184,8 +185,9 @@ bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                     cout << "You use the Green Orb of satisfaction and happiness and everything the best on the table!" << endl;
                     wait(1000);
                     damage = 5;
+                    enemyStats[0] -= (damage + attack);
                     enemyStats[3] += 5;
-                    cout << "You deal " << damage << " damage to the table." << endl;
+                    cout << "You deal " << (damage + attack) << " damage to the table." << endl;
                     wait(500);
                     cout << "You give the fire the BURNNNNN AHHHH" << endl;
                     wait(1000);
