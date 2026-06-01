@@ -133,8 +133,8 @@ bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& de
                 if(act == 1) {
                     cout << "burn burn table you burn burn" << endl;
                     wait(1000);
-                    damage = 5;
-                    enemyStats[0] -= (damage + attack);
+                    damage = 0;
+                    enemyStats[0] -= (damage + (attack / 2));
                     enemyStats[3] += 1;
                     cout << "You deal " << (damage + attack) << " damage to the table." << endl;
                     wait(500);
