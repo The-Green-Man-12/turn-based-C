@@ -12,7 +12,7 @@ and because of the other projects I have to take care of as well.
 #include <string>
 #include <thread>
 #include <chrono>
-#include <cstdlib>
+//#include <cstdlib>
 #include <ctime>
 using namespace std;
 bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& defense);
@@ -22,6 +22,7 @@ int findIndex(vector<string>& v, string val);
 vector<int> introductions(string& encounter);
 int printOptions(vector<string>& options);
 void wait(int milliseconds);
+void adamRichardRuzicka();
 
 
 int main() {
@@ -51,6 +52,7 @@ int main() {
     wait(2000);
     cout << "Thank you for playing tho!" << endl;
     wait(500);
+    adamRichardRuzicka();
     return 0;
 }
 
@@ -412,4 +414,9 @@ int findIndex(vector<string>& v, string val) {
 
 void wait(int milliseconds) {
     this_thread::sleep_for(chrono::milliseconds(milliseconds));
+}
+
+void adamRichardRuzicka() { //Matthew made this function of happiness
+    cout << "byeeeeeee" << endl;
+    cout << ":3";
 }
