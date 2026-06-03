@@ -12,7 +12,6 @@ and because of the other projects I have to take care of as well.
 #include <string>
 #include <thread>
 #include <chrono>
-//#include <cstdlib>
 #include <ctime>
 using namespace std;
 bool battle(string& encounter, int& maxHealth, int& health, int& attack, int& defense);
